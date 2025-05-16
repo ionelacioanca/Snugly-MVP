@@ -1,18 +1,31 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-// import userRouter from './routes/authRoutes.js';
+import userRouter from './routes/userRoutes.js';
 import connectDB from './db.js';
 import dotenv from 'dotenv';
+import authRouter from './routes/authRoutes.js';
+import auth from './middleware/authMiddleware.js';
+import cors from 'cors';
 
-dotenv.config();
-
-await connectDB();
-
+dotenv.config(); 
 const app = express();
-
+app.use(cors());
 app.use(bodyParser.json());
-// app.use(userRouter);  
 
-app.listen(process.env.PORT, () => {
-    console.log(`Example app listening on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+
+app.use('/api', authRouter);
+app.get('/api/private', auth, (req, res) => {
+    res.json({ message: 'This is a private route' });
 });
+app.use('/users', userRouter);
+
+
+async function main() {
+    await connectDB(); 
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+main().catch(err => console.error("Eroare la pornirea aplicației:", err));
