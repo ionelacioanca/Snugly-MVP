@@ -1,39 +1,26 @@
-import babyService from '../services/babyService.js';
+import BabyModel from '../models/Baby.js'; 
 
-class BabyController {
-
-    static async createBaby(babyModel) {
-        await userService.createBaby(babyModel);
+class BabyService {
+    static createBaby(babyData) {
+        const baby = new BabyModel(babyData);
+        return baby.save();
     }
 
-    static async getAllBabies() {
-        const babies = await babyService.getAllBabies();
-        return babies;
+    static async getAllBabys() {
+        return BabyModel.find();
     }
 
     static async getBabyById(babyId) {
-        const baby = await babyService.getBabyById(babyId);
-        if (!baby) {
-            throw new Error('Baby not found');
-        }
-        return baby;
+        return BabyModel.findById(babyId);
     }
 
-    static async updateBaby(babyId, babyModel) {
-        const updatedBaby = await babyService.updateBaby(babyId, babyModel);
-        if (!updatedBaby) {
-            throw new Error('Baby not found');
-        }
-        return updatedBaby;
+    static updateBaby(babyId, babyData) {
+        return BabyModel.findByIdAndUpdate(babyId, babyData, { new: true });
     }
 
-    static async deleteBaby(babyId) {
-        const deletedBaby = await babyService.deleteBaby(babyId);
-        if (!deletedBaby) {
-            throw new Error('Baby not found');
-        }
-        return deletedBaby;
+    static deleteBaby(babyId) {
+        return BabyModel.findByIdAndDelete(babyId);
     }
 }
 
-export default babyController;
+export default BabyService;

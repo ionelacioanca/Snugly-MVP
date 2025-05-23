@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import babyService from "../services/babyService"; 
+import { useNavigate } from "react-router-dom";
 
 const BabyPage = () => {
   const [baby, setBaby] = useState({
@@ -21,40 +23,104 @@ const BabyPage = () => {
     }));
   };
 
+  const navigate = useNavigate();
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBaby({ ...baby, [name]: value });
   };
 
-  // Fundal dinamic
+  // Stiluri dinamice
   const backgroundStyle =
     baby.sex === "Girl"
       ? {
-          background:
-            "linear-gradient(135deg, #ffeef5, #fcd6e0, #f8b9c8)",
+          background: "linear-gradient(135deg, #ffe8f0, #ffe0da, #ffefdb)",
         }
       : baby.sex === "Boy"
       ? {
-          background:
-            "linear-gradient(135deg, #e3f0fb, #bedef6, #a7cdf0)",
+          background: "linear-gradient(135deg, #e3f0fb, #c7eaff, #d9f4f2)",
         }
       : {
-          background: "linear-gradient(135deg, #fdf8f2 0%, #f0e7db 100%)",
+          background:
+            "linear-gradient(135deg, #fce4ec, #e0f7fa, #fff9c4, #f3e5f5)",
         };
 
   const accentColor =
     baby.sex === "Girl"
-      ? "#e07fa7"
+      ? "#e492a3"
       : baby.sex === "Boy"
-      ? "#5c9ed8"
-      : "#b59f89";
+      ? "#7fb5d8"
+      : "linear-gradient(to right, #c2e9fb, #f3e5f5, #fff9c4,#e0f7fa, #fce4ec)";
 
   const titleColor =
     baby.sex === "Girl"
-      ? "#e07fa7"
+      ? "#d96c8a"
       : baby.sex === "Boy"
       ? "#5c9ed8"
-      : "#b59f89";
+      : "linear-gradient(to right, #c2e9fb, #f3e5f5, #fff9c4,#e0f7fa, #fce4ec)";
+
+  const formBg =
+    baby.sex === "Girl"
+      ? "#fff0f5"
+      : baby.sex === "Boy"
+      ? "#f0faff"
+      : "#fffdf8";
+
+  const borderColorName =
+    baby.sex === "Girl"
+      ? "#F8A5C2"
+      : baby.sex === "Boy"
+      ? "#A4D8E1"
+      : "#F8A5C2";
+
+  const borderColorBirthDate =
+    baby.sex === "Girl"
+      ? "#FBC490"
+      : baby.sex === "Boy"
+      ? "#A8E6CF"
+      : "#FBC490"; 
+      
+  const borderColorBirthTime =
+    baby.sex === "Girl"
+      ? "#FAF3A0"
+      : baby.sex === "Boy"
+      ? "#D6F0F0"
+      : "#FAF3A0";
+      
+  const borderColorBirthWeight =
+    baby.sex === "Girl"
+      ? "#FF6961"
+      : baby.sex === "Boy"
+      ? "#B0E0E6"
+      : "#A8E6CF";
+
+  const borderColorBirthLength =
+    baby.sex === "Girl"
+      ? "#FFA07A"
+      : baby.sex === "Boy"
+      ? "#D0F0C0"
+      : "#A0D8F1";
+
+  const borderColorBirthType =
+    baby.sex === "Girl"
+      ? "#FAFAD2"
+      : baby.sex === "Boy"
+      ? "#AFEEEE"
+      : "#D6AEDD";
+
+  const borderColorBirthWeeks =
+    baby.sex === "Girl"
+      ? "#FFE4E1"
+      : baby.sex === "Boy"
+      ? "#F0F8FF"
+      : "#F8A5C2";
+
+  const borderColorAllergies =
+    baby.sex === "Girl"
+      ? "#FFEFD5"
+      : baby.sex === "Boy"
+      ? "#90EE90"
+      : "#FBC490";
 
   return (
     <div
@@ -67,33 +133,63 @@ const BabyPage = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("Baby data:", baby);
+          try {
+                const response = babyService.createBaby(baby);
+                console.log("Baby created successfully:", response);
+                alert("Baby details saved successfully!");
+                navigate("/dashboard");
+          } catch (error) {
+                console.error("Error creating baby:", error);
+                alert("Failed to save baby details.");
+          }
         }}
         className="p-4 rounded shadow"
         style={{
           maxWidth: "460px",
           width: "100%",
-          backgroundColor: "#fffdf8",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          backgroundColor: formBg,
+          border: "2px solid rgba(255, 255, 255, 0.4)",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+          transition: "all 0.4s ease-in-out",
         }}
       >
-        {/* TITLU */}
         <h2
-          className="mb-4 text-center"
+          className="mb-4 text-center position-relative"
           style={{
             fontFamily: "'Fredoka One', cursive",
             textTransform: "uppercase",
-            color: titleColor,
             fontWeight: "900",
-            fontSize: "2.8rem",
-            textShadow:
-              "2px 2px 0 #e8dccb, 4px 4px 0 #f0e7db, 6px 6px 5px rgba(0,0,0,0.1)",
-            letterSpacing: "0.15em",
-            transition: "color 0.4s ease",
+            fontSize: "2.6rem",
+            letterSpacing: "0.12em",
           }}
         >
-          Baby Details
+          <span
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              color: "rgba(0, 0, 0, 0.15)",
+              zIndex: 0,
+              transform: "translate(2px, 4px)", 
+              filter: "blur(2px)", 
+            }}
+          >
+            Baby Details
+          </span>
+          <span
+            style={{
+              background: titleColor,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            Baby Details
+          </span>
         </h2>
+
 
         {/* Nume */}
         <div className="mb-3">
@@ -105,16 +201,15 @@ const BabyPage = () => {
             onChange={handleChange}
             placeholder="Baby's Name"
             required
-            style={{ backgroundColor: "#fefaf6", borderColor: "#decbb2" }}
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorName }}
           />
         </div>
 
-        {/* SWITCH SEX - SLIDER */}
+        {/* SWITCH SEX */}
         <div className="mb-4 text-center">
           <div
             style={{
               position: "relative",
-              backgroundColor: "#f2f2f2",
               borderRadius: "30px",
               width: "160px",
               height: "40px",
@@ -126,7 +221,6 @@ const BabyPage = () => {
               padding: "0 15px",
               fontWeight: "600",
               fontSize: "1rem",
-              color: "#fff",
               userSelect: "none",
               background:
                 baby.sex === "Girl"
@@ -171,7 +265,7 @@ const BabyPage = () => {
           </div>
         </div>
 
-        {/* Restul câmpurilor */}
+        {/* RESTUL câmpurilor */}
         <div className="mb-3">
           <input
             type="date"
@@ -180,6 +274,7 @@ const BabyPage = () => {
             value={baby.birthDate}
             onChange={handleChange}
             required
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorBirthDate }}
           />
         </div>
 
@@ -190,6 +285,7 @@ const BabyPage = () => {
             name="birthTime"
             value={baby.birthTime}
             onChange={handleChange}
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorBirthTime }}
           />
         </div>
 
@@ -201,6 +297,7 @@ const BabyPage = () => {
             value={baby.birthWeight}
             onChange={handleChange}
             placeholder="Birth Weight (g)"
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorBirthWeight }}
           />
         </div>
 
@@ -212,6 +309,7 @@ const BabyPage = () => {
             value={baby.birthLength}
             onChange={handleChange}
             placeholder="Birth Length (cm)"
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorBirthLength }}
           />
         </div>
 
@@ -221,6 +319,7 @@ const BabyPage = () => {
             name="birthType"
             value={baby.birthType}
             onChange={handleChange}
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorBirthType }}
           >
             <option value="Natural">Natural</option>
             <option value="C-Section">C-Section</option>
@@ -235,6 +334,7 @@ const BabyPage = () => {
             value={baby.gestationalWeeks}
             onChange={handleChange}
             placeholder="Gestational Weeks"
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorBirthWeeks }}
           />
         </div>
 
@@ -246,21 +346,24 @@ const BabyPage = () => {
             value={baby.knownAllergies}
             onChange={handleChange}
             placeholder="Known Allergies (optional)"
+            style={{ backgroundColor: "#fefaf6", borderColor: borderColorAllergies }}
           />
         </div>
 
         {/* Submit */}
-        <button
+         <button
           type="submit"
           className="btn w-100"
           style={{
-            backgroundColor: accentColor,
-            color: "white",
+            background: accentColor,
+            color: "#a8b8d0",
             fontWeight: "600",
-            fontSize: "1.1rem",
+            border: "none",
+            borderRadius: "14px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
           }}
         >
-          Save Baby Info
+          Save Baby Details
         </button>
       </form>
     </div>

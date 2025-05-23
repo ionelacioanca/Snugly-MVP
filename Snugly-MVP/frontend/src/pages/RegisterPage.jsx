@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { authService } from "../services/authService";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -11,6 +11,7 @@ const RegisterPage = () => {
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -26,33 +27,58 @@ const RegisterPage = () => {
     <div
       className="d-flex justify-content-center align-items-center min-vh-100"
       style={{
-        background: "linear-gradient(135deg, #fdf8f2 0%, #f0e7db 100%)",
+        background:
+          "linear-gradient(135deg, #fce4ec, #e0f7fa, #fff9c4, #f3e5f5)",
       }}
     >
       <form
         onSubmit={handleRegister}
-        className="p-4 rounded shadow"
+        className="p-4"
         style={{
-          maxWidth: "380px",
+          maxWidth: "420px",
           width: "100%",
-          backgroundColor: "#fffdf8",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          borderRadius: "24px",
+          background: "#ffffff",
+          border: "2px solid rgba(255, 255, 255, 0.6)",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
         }}
       >
         <h2
-          className="mb-4 text-center"
+          className="mb-4 text-center position-relative"
           style={{
             fontFamily: "'Fredoka One', cursive",
             textTransform: "uppercase",
-            color: "#b59f89",
             fontWeight: "900",
-            fontSize: "2.8rem",
-            textShadow:
-              "2px 2px 0 #e8dccb, 4px 4px 0 #f0e7db, 6px 6px 5px rgba(0,0,0,0.1)",
-            letterSpacing: "0.15em",
+            fontSize: "2.6rem",
+            letterSpacing: "0.12em",
           }}
         >
-          REGISTER
+          <span
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              color: "rgba(0, 0, 0, 0.15)",
+              zIndex: 0,
+              transform: "translate(2px, 4px)", 
+              filter: "blur(2px)", 
+            }}
+          >
+            Register
+          </span>
+          <span
+            style={{
+              background:
+                "linear-gradient(to right, #c2e9fb, #f3e5f5, #fff9c4, #e0f7fa, #fce4ec)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            Register
+          </span>
         </h2>
 
         <div className="mb-3">
@@ -63,7 +89,11 @@ const RegisterPage = () => {
             onChange={(e) => setName(e.target.value)}
             placeholder="Name"
             required
-            style={{ borderColor: "#decbb2", backgroundColor: "#fefaf6" }}
+            style={{
+              backgroundColor: "#fff",
+              borderColor: "#F8A5C2",
+              borderRadius: "10px",
+            }}
           />
         </div>
 
@@ -75,7 +105,11 @@ const RegisterPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
-            style={{ borderColor: "#decbb2", backgroundColor: "#fefaf6" }}
+            style={{
+              backgroundColor: "#fff",
+              borderColor: "#FBC490",
+              borderRadius: "10px",
+            }}
           />
         </div>
 
@@ -87,7 +121,11 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
-            style={{ borderColor: "#decbb2", backgroundColor: "#fefaf6" }}
+            style={{
+              backgroundColor: "#fff",
+              borderColor: "#A8E6CF",
+              borderRadius: "10px",
+            }}
           />
         </div>
 
@@ -96,7 +134,11 @@ const RegisterPage = () => {
             className="form-select"
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            style={{ borderColor: "#decbb2", backgroundColor: "#fefaf6" }}
+            style={{
+              backgroundColor: "#fff",
+              borderColor: "#D6AEDD",
+              borderRadius: "10px",
+            }}
           >
             <option value="mother">Mother</option>
             <option value="father">Father</option>
@@ -109,16 +151,23 @@ const RegisterPage = () => {
           type="submit"
           className="btn w-100"
           style={{
-            backgroundColor: "#b59f89",
-            color: "white",
+            background:
+              "linear-gradient(to right, #c2e9fb, #f3e5f5, #fff9c4,#e0f7fa, #fce4ec)",
+            color: "#a8b8d0",
             fontWeight: "600",
+            border: "none",
+            borderRadius: "14px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
           }}
         >
-          Register
+          REGISTER
         </button>
 
         {message && (
-          <div className="mt-3 text-center" style={{ color: "#b59f89" }}>
+          <div
+            className="mt-3 text-center"
+            style={{ color: "#a1735f", fontWeight: "500" }}
+          >
             {message}
           </div>
         )}
