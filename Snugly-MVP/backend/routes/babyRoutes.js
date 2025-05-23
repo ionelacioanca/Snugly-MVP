@@ -1,5 +1,5 @@
 import express from 'express';
-import BabyController from '../controllers/babyController.js';
+import babyController from '../controllers/babyController.js';
 
 const babyRouter = express.Router();
 
@@ -10,18 +10,16 @@ babyRouter.get("/baby/:id", async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
-);
+});
 
 babyRouter.post("/baby", async (req, res) => {
     try {
-        babyController.createBaby(req.body);
-        res.status(201).send("Baby created successfully");
+        const baby = await babyController.createBaby(req.body);
+        res.status(201).json({ message: "Baby created successfully", baby });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-}
-);
+});
 
 babyRouter.patch("/baby/:id", async (req, res) => {
     try {
@@ -30,8 +28,7 @@ babyRouter.patch("/baby/:id", async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
-);
+});
 
 babyRouter.put("/baby/:id", async (req, res) => {
     try {
@@ -40,18 +37,15 @@ babyRouter.put("/baby/:id", async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
-);
+});
 
 babyRouter.delete("/baby/:id", async (req, res) => {
     try {
-        const deleteBaby = babyController.deleteBaby(req.params.id);
-        res.status(200).send("Baby deleted successfully");
+        await babyController.deleteBaby(req.params.id);
+        res.status(200).json({ message: "Baby deleted successfully" });
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
-);
+});
 
 export default babyRouter;
-

@@ -4,6 +4,7 @@ import userRouter from './routes/userRoutes.js';
 import connectDB from './db.js';
 import dotenv from 'dotenv';
 import authRouter from './routes/authRoutes.js';
+import babyRouter from './routes/babyRoutes.js';
 import auth from './middleware/authMiddleware.js';
 import cors from 'cors';
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 const PORT = process.env.PORT || 5000;
 
 app.use('/api', authRouter);
+app.use('/api', babyRouter);
 app.get('/api/private', auth, (req, res) => {
     res.json({ message: 'This is a private route' });
 });
